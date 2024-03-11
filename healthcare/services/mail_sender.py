@@ -12,7 +12,7 @@ def send_interaction_email(patient_id, interaction_completed, note, tasks_comple
         patient = patient.first_name
 
         # Admin's email
-        admin_email = 'angelov@angeloviliyan.com'
+        admin_email = 'your@email_to_receive_messages'
 
         # Context data to pass to the template
         context = {
