@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>GeeksForGeeks</title>
+	<link rel="stylesheet"
+		href="{% static 'dashboard/css/style.css' %}">
+	<link rel="stylesheet"
+		href="{% static 'dashboard/css/responsive.css' %}">
+    <link rel="stylesheet"
+		href="{% static 'dashboard/css/tables.css' %}">
+</head>
+
+<body>
+
+	<!-- for header part -->
+	<header>
+
+		<div class="logosec">
+			    <img src="{% static 'images/Helfen-logo.png' %}" alt="Logo" width="190px" height="60px">
+			<img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+				class="icn menuicn"
+				id="menuicn"
+				alt="menu-icon">
+		</div>
+
+ <h3 class="font-bold pl-2" style="color: #275fb1">{{ greeting_message }}, {{ request.user.first_name }} {{ request.user.last_name}}</h3>
+                        <p style="color: #0062cc">Днес : {{ current_time }}</p>
+        <a class="inline-block text-gray-400 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="mailto:{{ request.user.email }}"> <button>{{ request.user.email }}</button></a>
+<a class="inline-block text-gray-400 no-underline hover:text-gray-200 hover:text-underline py-2 px-4">
+    <span style="color: blue;">Влезли сте като: <button>{{ request.user.username }}</button>
+    </span>
+</a>
+
+	</header>
+
+	<div class="main-container">
+		<div class="navcontainer">
+			<nav class="nav">
+				<div class="nav-upper-options">
+					<div class="nav-option option1">
+						<img src=
+"{% static 'images/dashboard.png' %}"
+							class="nav-img"
+							alt="dashboard">
+                        <h3><a style="color: white;" href="/dashboard/">Табло</a></h3>
+					</div>
+
+
+					<div class="option2 nav-option">
+						<img src=
+"{% static 'images/tasks.png' %}"
+							class="nav-img"
+							alt="articles">
+                     <a href="/task/"><h3>Задачи</h3></a>
+					</div>
+
+
+					<div class="nav-option logout">
+                       <a class="cover link" href="/logout/">
+    <img src="{% static 'images/logout.png' %}" class="nav-img" alt="logout">
+                       </a>
+ <h3><a style="color: #5500cb;" href="/logout/">Излез</a></h3>
+                    </div>
+
+				</div> 
+			</nav> 
+		</div> 
+		<div class="main">
+
+
+
+			<div class="report-container"> 
+				<div class="report-header"> 
+					<h1 class="recent-Articles">Автоматизирана система</h1>
+
+				</div>
+                       <form role="form" method="POST" action="/task/">
+            {% csrf_token %}
+            <!-- Form inputs start here -->
+            <div class="form-group">
+                <label for="name_select">Изберете пациент:</label>
+                <select class="form-control" id="name_select" name="name_select">
+                    <!-- Options for selecting a patient -->
+                    {% if assigned_patient %}
+                    {% for patient in assigned_patient %}
+                    <option value="{{ patient.id }}">{{ patient.first_name }}</option>
+                    {% endfor %}
+                    {% else %}
+                    <option disabled selected>Няма пациенти</option>
+                    {% endif %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="interaction_completed">Приключихте ли с пациента за днес:</label>
+                <select class="form-control" id="interaction_completed" name="interaction_completed">
+                    <!-- Options for selecting whether the interaction with the patient is completed for today -->
+                    <option value="Да">Да</option>
+                    <option value="Не">Не</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="note">Бележка:</label>
+                <input class="form-control" type="text" id="note" name="note" style="min-height:100px;" />
+            </div>
+            <div class="form-group" id="tasks_completed">
+                <label style="color: #dc3545">Свършени задачи:</label>
+                <!-- Checkboxes for tasks completed -->
+              <div class="checkbox-row">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Пране" />Готвене
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Разходка" />Хранене
+        </label>
+    </div>
+</div>
+<div class="container">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Баня" />Преобличане
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Лекарства" />Прием на лекарства
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Измерване кръвно налягане" />Измерване кръвно налягане
+        </label>
+    </div>
+     <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Измерване кръвна захар" />Измерване кръвна захар
+        </label>
+    </div>
+     <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Почистване" />Почистване
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Пране" />Пране
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Смяна на бельо" />Смяна на бельо
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Пазаруване" />Пазаруване
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="tasks_completed" value="Разходка" />Разходка
+        </label>
+    </div>
+</div>
+
+            </div>
+            <!-- Submit and reset buttons -->
+           <div style="text-align: center;">
+    <button type="submit" class="btn btn-success" {% if not assigned_patient %}disabled{% endif %}>Изпрати</button>
+    <button type="reset" class="btn btn-primary">Нулирай</button>
+</div>
+
+        </form>
+
+				
+					</div> 
+				</div> 
+			</div> 
+		</div> 
+	</div> 
+
+	<script src="{% static 'dashboard/js/index.js' %}"></script>
+
+
+</body> 
+</html>
+

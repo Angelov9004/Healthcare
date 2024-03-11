@@ -1,0 +1,257 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8"> 
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge"> 
+	<meta name="viewport"
+		content="width=device-width, 
+				initial-scale=1.0"> 
+	<title>GeeksForGeeks</title> 
+	<link rel="stylesheet"
+		href="{% static 'dashboard/css/style.css' %}">
+	<link rel="stylesheet"
+		href="{% static 'dashboard/css/responsive.css' %}">
+    <link rel="stylesheet"
+		href="{% static 'dashboard/css/tables.css' %}">
+</head> 
+
+<body> 
+	
+	<!-- for header part -->
+	<header> 
+
+		<div class="logosec">
+			    <img src="{% static 'images/Helfen-logo.png' %}" alt="Logo" width="190px" height="60px">
+			<img src= 
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+				class="icn menuicn"
+				id="menuicn"
+				alt="menu-icon"> 
+		</div>
+
+ <h3 class="font-bold pl-2" style="color: #275fb1">{{ greeting_message }}, {{ request.user.first_name }} {{ request.user.last_name}}</h3>
+                        <p style="color: #0062cc">Днес : {{ current_time }}</p>
+        <a class="inline-block text-gray-400 no-underline hover:text-gray-200 hover:text-underline py-2 px-4" href="mailto:{{ request.user.email }}"> <button>{{ request.user.email }}</button></a>
+<a class="inline-block text-gray-400 no-underline hover:text-gray-200 hover:text-underline py-2 px-4">
+    <span style="color: blue;">Влезли сте като: <button>{{ request.user.username }}</button>
+    </span>
+</a>
+
+
+
+
+
+    </div>
+
+	</header> 
+
+	<div class="main-container"> 
+		<div class="navcontainer"> 
+			<nav class="nav"> 
+				<div class="nav-upper-options"> 
+					<div class="nav-option option1">
+						<img src=
+"{% static 'images/dashboard.png' %}"
+							class="nav-img"
+							alt="dashboard">
+                        <h3><a style="color: white;" href="/dashboard/">Табло</a></h3>
+					</div>
+
+
+					<div class="option2 nav-option"> 
+						<img src= 
+"{% static 'images/tasks.png' %}"
+							class="nav-img"
+							alt="articles"> 
+                     <a href="/task/"><h3>Задачи</h3></a>
+					</div> 
+
+
+					<div class="nav-option logout">
+                       <a class="cover link" href="/logout/">
+    <img src="{% static 'images/logout.png' %}" class="nav-img" alt="logout">
+                       </a>
+ <h3><a style="color: #5500cb;" href="/logout/">Излез</a></h3>
+                    </div>
+
+				</div> 
+			</nav> 
+		</div> 
+		<div class="main"> 
+
+			<div class="searchbar2"> 
+				<input type="text"
+					name=""
+					id=""
+					placeholder="Search"> 
+				<div class="searchbtn"> 
+				<img src= 
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+						class="icn srchicn"
+						alt="search-button"> 
+				</div> 
+			</div> 
+
+			<div class="box-container"> 
+
+				<div class="box box1"> 
+					<div class="text"> 
+						<h2 class="topic-heading">{{ patient_count }}</h2>
+						<h2 class="topic">Пациента</h2>
+					</div> 
+
+					<img src= 
+"{% static 'images/patients.png' %}"
+                         alt="Views">
+				</div> 
+
+				<div class="box box2"> 
+					<div class="text"> 
+						<h2 class="topic-heading">{{ assigned_medication.count }}</h2>
+						<h2 class="topic">Лекарства</h2>
+					</div> 
+
+					<img src= 
+"{% static 'images/med.png' %}"
+						alt="likes"> 
+				</div> 
+
+				<div class="box box3"> 
+					<div class="text"> 
+						<h2 class="topic-heading">{{ notifications.count }}</h2>
+						<h2 class="topic">Известия</h2>
+					</div> 
+
+					<img src= 
+"{% static 'images/notifications.png' %}"
+                         alt="comments">
+				</div> 
+
+			</div> 
+                   <div class="wrapper">
+                       <br>
+                       <br>
+<div class="container">
+    <table border="1" style="background-color: lightblue;">
+        <h3 style="color: #24bdef">Вашите пациенти</h3>
+        <tr>
+            <th>Име</th>
+            <th>Фамилия</th>
+            <th>Пол</th>
+            <th>Град</th>
+            <th>Телефон</th>
+        </tr>
+         {% for patient in assigned_patient %}
+        <tr>
+            <td>{{ patient.first_name }}</td>
+            <td>{{ patient.last_name }}</td>
+            <td>{{ patient.gender }}</td>
+            <td>{{ patient.city }}</td>
+            <td>{{ patient.phone }}</td>
+        </tr>
+        {% empty %}
+                    <tr>
+                        <td colspan="5">Нямате пациенти</td>
+                    </tr>
+                    {% endfor %}
+    </table>
+    <br>
+    <table border="1" style="background-color: lightgreen;">
+        <h3 style="color: #1b6806">Техните нужди</h3>
+        <tr>
+            <th>Име на пациент</th>
+            <th>Нужди</th>
+             {% for patient in assigned_patient %}
+        </tr>
+        <tr>
+            <td>{{ patient.first_name }}</td>
+            <td>{{ patient.needs }}</td>
+        </tr>
+         {% empty %}
+                        <tr>
+                            <td colspan="2">Няма записи</td>
+                        </tr>
+                    {% endfor %}
+    </table>
+    <br>
+    <table border="1" style="background-color: #75aadf;">
+        <h3 style="color: #3383c8">Техните предпочитания</h3>
+        <tr>
+        <th>Име на пациент</th>
+            <th>Техните предпочитания</th>
+            {% for patient in assigned_patient %}
+        </tr>
+        <tr>
+            <td>{{ patient.first_name }}</td>
+            <td>{{ patient.preference }}</td>
+        </tr>
+        {% empty %}
+                        <tr>
+                            <td colspan="2">Няма записи</td>
+                        </tr>
+                    {% endfor %}
+    </table>
+    <br>
+    <table border="1" style="background-color: #ee9090;">
+        <h3 style="color: #df5666">Техните лекарства</h3>
+        <tr>
+            <th>Име на пациент</th>
+            <th>Име на лекарство</th>
+            <th>Описания</th>
+        </tr>
+         {% for assigned_medication in assigned_medication %}
+        <tr>
+            <td>{{ assigned_medication.patient_name }}</td>
+            <td>{{ assigned_medication.name_of_medication }}</td>
+            <td>{{ assigned_medication.description_of_medication }}</td>
+        </tr>
+        {% empty %}
+                        <tr>
+                            <td colspan="3">Няма записи</td>
+                        </tr>
+                    {% endfor %}
+    </table>
+</div>
+
+{% if notifications %}
+    {% for notification in notifications %}
+        <div class="container" style="margin-left: auto;">
+            <div class="notification">
+                <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <strong style="color: #000000">Известие :</strong> {{ notification.message }} <br> Получен на: {{ notification.created_at }}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="container" style="margin-left: auto;">
+        <div class="notification">
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong style="color: #cc0007"> Няма известия </strong>
+        </div>
+    </div>
+{% endif %}
+
+                   </div>
+
+		</div>
+	</div>
+
+	<script src="{% static 'dashboard/js/index.js' %}"></script>
+
+<footer>
+    <div class="container">
+        <div style="text-align: center;">
+            <p>&copy; 2024 HELFEN.BG</p>
+            <p style="color: #0062cc">by www.angeloviliyan.com</p>
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>
+
+
